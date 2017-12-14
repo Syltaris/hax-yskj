@@ -8,7 +8,15 @@ import {
     FormLabel, 
     FormInput 
 } from 'react-native-elements';
+import {
+    NavigationActions
+} from 'react-navigation';
 import styles from '../styles';
+
+const resetAction = NavigationActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Home' })],
+});
 
 export default class LoginDetailsScreen extends Component {
     constructor(props) {
@@ -17,7 +25,7 @@ export default class LoginDetailsScreen extends Component {
     }
 
     validateInputsAndLogin() {
-        this.props.navigation.navigate('Home')
+        this.props.navigation.dispatch(resetAction);        
     }
 
     render() {

@@ -8,7 +8,15 @@ import {
     Button,
     Icon
 } from 'react-native-elements';
+import {
+    NavigationActions
+} from 'react-navigation';
 import styles from '../styles';
+
+const resetAction = NavigationActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'Home' })],
+});
 
 export default class LoginScreen extends Component {
     render() {
@@ -43,7 +51,7 @@ export default class LoginScreen extends Component {
                     icon={{name: 'wechat', type: 'font-awesome'}}
                     iconLeft
                     buttonStyle= {styles.login_button_wechat_style}
-                    onPress={ () => {this.props.navigation.navigate('Home')}}                          
+                    onPress={ () => {this.props.navigation.dispatch(resetAction)}}                          
                     title='微信登录' />
                 </View>
             </View>
