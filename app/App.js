@@ -14,10 +14,11 @@ import {
   Image,
   CameraRoll,
   TouchableOpacity,
+  TextInput
 } from 'react-native';
 import {
   Button,
-  Icon
+  Icon,
 } from 'react-native-elements';
 import MapView from 'react-native-maps';
 import {
@@ -72,7 +73,22 @@ class App extends Component {
         region={START_COORDINATES}>
         </MapView>
         <View style={styles.search_container}>
-          <Text>Ok</Text>
+          <View>
+            <Icon
+            raised
+            name="person"
+            type="material-icons"
+            size={20}/>
+          </View>
+          <View style={styles.camera_container}>
+            <TextInput 
+            style={styles.search_input}/>
+          </View>
+          <Icon
+          raised
+          name="microphone"
+          type="font-awesome"
+          size={18}/>
         </View>
       </View>
     );

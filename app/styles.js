@@ -100,8 +100,18 @@ export default styles = StyleSheet.create({
       ...StyleSheet.absoluteFillObject,
     },
     search_container: {
+      flexDirection: 'row',
       backgroundColor: "white",
-      width: "100%",
+      width: '95%',
+      padding: 5,
+      margin: 5
     },
+      search_profile_icon: {
+        height: 100,
+        width: 100
+      },
+      search_input: {
+        width: '100%',
+      }
     
   });
