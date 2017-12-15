@@ -19,6 +19,7 @@ import {
   Button,
   Icon
 } from 'react-native-elements';
+import MapView from 'react-native-maps';
 import { StackNavigator } from 'react-navigation';
 
 import styles from './styles';
@@ -54,6 +55,23 @@ class App extends Component {
   }
 
   render() {
+    return(
+      <View style={styles.container}>
+        <MapView
+        style={styles.map}
+        region={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        }}>
+
+        </MapView>
+      </View>
+    );
+  }
+
+  renderNow() {
     this.getPhotos();
     return (
       <View style={styles.container}>
