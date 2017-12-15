@@ -35,20 +35,6 @@ import RegisterDetailsScreen from './Components/RegisterDetailsScreen';
 
 const { width } = Dimensions.get('window')
 
-START_COORDINATES = {
-  latitude: 31.2304,
-  longitude: 121.4737,
-  latitudeDelta: 0.015,
-  longitudeDelta: 0.0121,
-}
-
-END_COORDINATES = {
-  latitude: 31.2304,
-  longitude: 121.4737,
-  latitudeDelta: 0.015,
-  longitudeDelta: 0.0121,
-}
-
 START_POINT = {
   latitude: 31.1944118,
   longitude: 121.441287,
@@ -70,6 +56,56 @@ END_POINT = {
   longitudeDelta: 0.0121,
 }
 
+state = []
+
+RouteToShow = () => {
+  if(this.state.showRoute == true) {
+      return (
+        <View>
+        <MapView.Circle
+        center={START_POINT}
+        radius={15}
+        zIndex={100}
+        strokeWidth={2}
+        fillColor="#00EE33"/>
+        <MapView.Polyline
+        coordinates={[
+        START_POINT,
+        MIDDLE_POINT,
+        {
+          latitude: 31.193918,
+          longitude: 121.4410087,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        },{
+          latitude: 31.191418,
+          longitude: 121.4422087,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        },{
+          latitude: 31.192718,
+          longitude: 121.445287,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        },
+        END_POINT]}
+      strokeWidth={10}
+      strokeColor="#5588FF"/>
+      <MapView.Circle
+      center={END_POINT}
+      radius={15}
+      zIndex={100}
+      strokeWidth={2}
+      fillColor="#0033AA"/>
+      </View>
+    );
+  } else if (this.state.showRoute == true && this.state.showDanger == true) {
+    return <View><Text>Danger</Text></View>
+  } else {
+    return <View></View>
+  }
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -77,7 +113,10 @@ class App extends Component {
       photos: [],
       calloutHidden: true,
       showSearchBarRecco: false,
-      coordinatesSelected: START_COORDINATES
+      coordinatesSelected: START_POINT,
+      routeCoordinates: [],
+      showRoute: false,
+      showDanger: false,
     };
   }
 
@@ -100,41 +139,7 @@ class App extends Component {
         <MapView
         style={styles.map}
         region={START_POINT}>
-          <MapView.Circle
-          center={START_POINT}
-          radius={15}
-          zIndex={100}
-          strokeWidth={2}
-          fillColor="#00EE33"/>
-          <MapView.Polyline
-          coordinates={[
-            START_POINT,
-            MIDDLE_POINT,{
-              latitude: 31.193918,
-              longitude: 121.4410087,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            },{
-              latitude: 31.191418,
-              longitude: 121.4422087,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            },{
-              latitude: 31.192718,
-              longitude: 121.445287,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            },
-            END_POINT]}
-          strokeWidth={10}
-          strokeColor="#5588FF"
-          />
-          <MapView.Circle
-          center={END_POINT}
-          radius={15}
-          zIndex={100}
-          strokeWidth={2}
-          fillColor="#0033AA"/>
+          <RouteToShow />
         </MapView>
         <View >
           <View style={styles.search_container}>
