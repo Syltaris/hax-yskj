@@ -25,7 +25,7 @@ export default class LoginScreen extends Component {
     loginByWeChat() {
         Toast.loading("正在登录...", 1);
         setTimeout(() => Toast.success("成功！", 1), 1200);
-        setTimeout(() => this.props.navigation.dispatch(resetAction), 1500);
+        setTimeout(() => this.props.navigation.dispatch(resetAction), 100);
     }
 
     render() {

@@ -99,5 +99,9 @@ export default styles = StyleSheet.create({
     map: {
       ...StyleSheet.absoluteFillObject,
     },
+    search_container: {
+      backgroundColor: "white",
+      width: "100%",
+    },
     
   });

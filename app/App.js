@@ -20,6 +20,9 @@ import {
   Icon
 } from 'react-native-elements';
 import MapView from 'react-native-maps';
+import {
+  Toast
+} from 'antd-mobile';
 import { StackNavigator } from 'react-navigation';
 
 import styles from './styles';
@@ -30,20 +33,49 @@ import RegisterDetailsScreen from './Components/RegisterDetailsScreen';
 
 const { width } = Dimensions.get('window')
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+START_COORDINATES = {
+  latitude: 31.2304,
+  longitude: 121.4737,
+  latitudeDelta: 0.015,
+  longitudeDelta: 0.0121,
+}
+
+END_COORDINATES = {
+  latitude: 31.2304,
+  longitude: 121.4737,
+  latitudeDelta: 0.015,
+  longitudeDelta: 0.0121,
+}
 
 class App extends Component {
-  state = {
-    photos: [],
-  }
-
   constructor(props) {
     super(props);
+    this.state = {
+      photos: [],
+      calloutHidden: true,
+      coordinatesSelected: START_COORDINATES
+    };
+  }
+
+  showCallout() {
+    Toast.show('yeah');
+    this.setState((prevState) => {
+      return {calloutHidden: !prevState.calloutHidden};
+    });
+  }
+
+  render() {
+    return(
+      <View style={styles.container}>
+        <MapView
+        style={styles.map}
+        region={START_COORDINATES}>
+        </MapView>
+        <View style={styles.search_container}>
+          <Text>Ok</Text>
+        </View>
+      </View>
+    );
   }
 
   getPhotos = () => {
@@ -52,22 +84,6 @@ class App extends Component {
       assetType: 'All'
     })
     .then(r => this.setState({ photos: r.edges }))
-  }
-
-  render() {
-    return(
-      <View style={styles.container}>
-        <MapView
-        style={styles.map}
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}>
-        </MapView>
-      </View>
-    );
   }
 
   renderNow() {
@@ -139,7 +155,7 @@ const RootNavigator = StackNavigator({
   Home: {
     screen: App,
     navigationOptions: {
-      headerTitle: 'Main'
+      header: null,
     }
   },
   Camera: {
