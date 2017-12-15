@@ -32,10 +32,10 @@ export default class LoginDetailsScreen extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.container}>
-                    <FormLabel>用户电邮</FormLabel>
+                    <FormLabel style={styles.label_text}>用户电邮</FormLabel>
                     <FormInput onChangeText={null} />
 
-                    <FormLabel>密码</FormLabel>
+                    <FormLabel style={styles.label_text}>密码</FormLabel>
                     <FormInput onChangeText={null} />
                 </View>
                 <View style={styles.button_container}>

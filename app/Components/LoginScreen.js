@@ -9,6 +9,9 @@ import {
     Icon
 } from 'react-native-elements';
 import {
+    Toast
+} from 'antd-mobile';
+import {
     NavigationActions
 } from 'react-navigation';
 import styles from '../styles';
@@ -19,6 +22,12 @@ const resetAction = NavigationActions.reset({
 });
 
 export default class LoginScreen extends Component {
+    loginByWeChat() {
+        Toast.loading("正在登录...", 1);
+        setTimeout(() => Toast.success("成功！", 1), 1200);
+        setTimeout(() => this.props.navigation.dispatch(resetAction), 1500);
+    }
+
     render() {
         return(
             <View style={styles.container_end}>
@@ -51,7 +60,7 @@ export default class LoginScreen extends Component {
                     icon={{name: 'wechat', type: 'font-awesome'}}
                     iconLeft
                     buttonStyle= {styles.login_button_wechat_style}
-                    onPress={ () => {this.props.navigation.dispatch(resetAction)}}                          
+                    onPress={ () => {this.loginByWeChat()}}                          
                     title='微信登录' />
                 </View>
             </View>

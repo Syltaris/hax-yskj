@@ -99,4 +99,5 @@ export default styles = StyleSheet.create({
     map: {
       ...StyleSheet.absoluteFillObject,
     },
+    
   });

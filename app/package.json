@@ -7,7 +7,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "antd-mobile": "^2.1.2",
     "react": "16.0.0",
+    "react-dom": "^16.2.0",
     "react-native": "0.51.0",
     "react-native-camera": "^0.12.0",
     "react-native-elements": "^0.18.5",
