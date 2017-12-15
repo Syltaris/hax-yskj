@@ -22,7 +22,8 @@ import {
 } from 'react-native-elements';
 import MapView from 'react-native-maps';
 import {
-  Toast
+  Toast,
+  Modal
 } from 'antd-mobile';
 import { StackNavigator } from 'react-navigation';
 
@@ -48,12 +49,34 @@ END_COORDINATES = {
   longitudeDelta: 0.0121,
 }
 
+START_POINT = {
+  latitude: 31.1944118,
+  longitude: 121.441287,
+  latitudeDelta: 0.015,
+  longitudeDelta: 0.0121,
+}
+
+MIDDLE_POINT = {
+  latitude: 31.1932927,
+  longitude: 121.4395875,
+  latitudeDelta: 0.015,
+  longitudeDelta: 0.0121,
+}
+
+END_POINT = {
+  latitude: 31.19142,
+  longitude: 121.445826,
+  latitudeDelta: 0.015,
+  longitudeDelta: 0.0121,
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       photos: [],
       calloutHidden: true,
+      showSearchBarRecco: false,
       coordinatesSelected: START_COORDINATES
     };
   }
@@ -65,30 +88,74 @@ class App extends Component {
     });
   }
 
+  toggleSearchBar= () => {
+    this.setState((prevState) => ({
+      showSearchBarRecco: !prevState.showSearchBarRecco
+    }));
+  }
+
   render() {
     return(
       <View style={styles.container}>
         <MapView
         style={styles.map}
-        region={START_COORDINATES}>
+        region={START_POINT}>
+          <MapView.Circle
+          center={START_POINT}
+          radius={15}
+          zIndex={100}
+          strokeWidth={2}
+          fillColor="#00EE33"/>
+          <MapView.Polyline
+          coordinates={[
+            START_POINT,
+            MIDDLE_POINT,{
+              latitude: 31.193918,
+              longitude: 121.4410087,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+            },{
+              latitude: 31.191418,
+              longitude: 121.4422087,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+            },{
+              latitude: 31.192718,
+              longitude: 121.445287,
+              latitudeDelta: 0.015,
+              longitudeDelta: 0.0121,
+            },
+            END_POINT]}
+          strokeWidth={10}
+          strokeColor="#5588FF"
+          />
+          <MapView.Circle
+          center={END_POINT}
+          radius={15}
+          zIndex={100}
+          strokeWidth={2}
+          fillColor="#0033AA"/>
         </MapView>
-        <View style={styles.search_container}>
-          <View>
+        <View >
+          <View style={styles.search_container}>
+            <View>
+              <Icon
+              raised
+              name="person"
+              type="material-icons"
+              size={20}/>
+            </View>
+            <View style={styles.camera_container}>
+              <TextInput 
+              onChange={this.toggleSearchBar.bind(this)}
+              style={styles.search_input}/>
+            </View>
             <Icon
             raised
-            name="person"
-            type="material-icons"
-            size={20}/>
+            name="microphone"
+            type="font-awesome"
+            size={18}/>
           </View>
-          <View style={styles.camera_container}>
-            <TextInput 
-            style={styles.search_input}/>
-          </View>
-          <Icon
-          raised
-          name="microphone"
-          type="font-awesome"
-          size={18}/>
         </View>
       </View>
     );
