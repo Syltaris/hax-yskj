@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 PRIMARY_BUTTON_COLOR = '#30A0EF';
 PRIMARY_BUTTON_TEXT_COLOR = '#FFFFFF';
 
-PRIMARY_BACKGROUND_COLOR = '#F5FCFF'
+PRIMARY_BACKGROUND_COLOR = '#FFFFFF'
 
 export default styles = StyleSheet.create({
     container: {
@@ -13,6 +13,13 @@ export default styles = StyleSheet.create({
     },
     container_end: {
       flex: 1,
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      backgroundColor: PRIMARY_BACKGROUND_COLOR,
+    },
+    container_row_end: {
+      flex: 1,
+      flexDirection: 'row',
       justifyContent: 'flex-end',
       alignItems: 'center',
       backgroundColor: PRIMARY_BACKGROUND_COLOR,
@@ -106,12 +113,46 @@ export default styles = StyleSheet.create({
       padding: 5,
       margin: 5
     },
+    bottom_search_container: {
+      flexDirection: 'row',
+      backgroundColor: "white",
+      width: '95%',
+      padding: 5,
+      margin: 5,
+    },
       search_profile_icon: {
         height: 100,
         width: 100
       },
       search_input: {
         width: '100%',
+      },
+      bottom_search_button: {
+        flexDirection: 'row',
+        width: '50%',
+      },
+      bottom_search_text: {
+        fontSize: 20
+      },
+      bottom_container_button: {
+        width: '33.33%',
+        alignItems: 'center',
+        borderColor: '#000000',
+        borderWidth: 1
+      },
+    card: {
+      width: '100%',
+    },
+      card_container:{
+        width: '100%',
+        margin: 0,
+        padding: 0,
+      },
+      card_image: {
+        width: '100%'
+      },
+      card_container_button: {
+        alignItems: 'center',
+        width: '50%'
       }
-    
   });

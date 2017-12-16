@@ -19,6 +19,7 @@ import {
 import {
   Button,
   Icon,
+  Card,
 } from 'react-native-elements';
 import MapView from 'react-native-maps';
 import {
@@ -59,7 +60,7 @@ END_POINT = {
 state = []
 
 RouteToShow = () => {
-  if(this.state.showRoute == true) {
+  if(this.state.showRoute == true && this.state.showDanger == false) {
       return (
         <View>
         <MapView.Circle
@@ -69,26 +70,7 @@ RouteToShow = () => {
         strokeWidth={2}
         fillColor="#00EE33"/>
         <MapView.Polyline
-        coordinates={[
-        START_POINT,
-        MIDDLE_POINT,
-        {
-          latitude: 31.193918,
-          longitude: 121.4410087,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        },{
-          latitude: 31.191418,
-          longitude: 121.4422087,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        },{
-          latitude: 31.192718,
-          longitude: 121.445287,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        },
-        END_POINT]}
+        coordinates={this.state.coordinatesSelected}
       strokeWidth={10}
       strokeColor="#5588FF"/>
       <MapView.Circle
@@ -113,24 +95,96 @@ class App extends Component {
       photos: [],
       calloutHidden: true,
       showSearchBarRecco: false,
-      coordinatesSelected: START_POINT,
-      routeCoordinates: [],
+      showBottomBarRecco: false,
+      coordinatesSelected: [],
+      routeCoordinates: [[
+        START_POINT,
+        MIDDLE_POINT,
+        {
+          latitude: 31.193918,
+          longitude: 121.4410087,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        },{
+          latitude: 31.191418,
+          longitude: 121.4422087,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        },{
+          latitude: 31.192718,
+          longitude: 121.445287,
+          latitudeDelta: 0.015,
+          longitudeDelta: 0.0121,
+        },
+        END_POINT],[
+          START_POINT,
+          MIDDLE_POINT,
+          {
+            latitude: 31.193918,
+            longitude: 121.4410087,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          },{
+            latitude: 31.191418,
+            longitude: 121.4422087,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          },{
+            latitude: 31.192718,
+            longitude: 121.445287,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          },
+          END_POINT] ],
       showRoute: false,
       showDanger: false,
+      showCards: false,
+      showNextCard: false,
     };
   }
 
-  showCallout() {
-    Toast.show('yeah');
-    this.setState((prevState) => {
-      return {calloutHidden: !prevState.calloutHidden};
-    });
-  }
+
 
   toggleSearchBar= () => {
     this.setState((prevState) => ({
       showSearchBarRecco: !prevState.showSearchBarRecco
     }));
+  }
+  toggleWorkRoute= () => {
+    this.setState((prevState) => {
+      return {
+      showRoute: true,
+      showBottomBarRecco: true,
+      coordinatesSelected: prevState.routeCoordinates[0]
+    }
+    });
+  }
+
+  toggleCards= () => {
+    this.setState((prevState) => {
+      return {
+        showCards: !prevState.showCards,
+        showBottomBarRecco: false,
+      }
+    })
+  }
+
+  toggleNextCard= () => {
+    this.setState(() => {
+      return {
+        showCards: false,
+        showNextCard: true,
+      }
+    })
+  }
+
+  closeCards= ()=> {
+    this.setState(() => {
+      return {
+        showCards: false,
+        showNextCard: false,
+      }
+    })
   }
 
   render() {
@@ -139,7 +193,24 @@ class App extends Component {
         <MapView
         style={styles.map}
         region={START_POINT}>
-          <RouteToShow />
+          <View>
+            <MapView.Circle
+            center={START_POINT}
+            radius={15}
+            zIndex={100}
+            strokeWidth={2}
+            fillColor="#00EE33"/>
+            <MapView.Polyline
+            coordinates={this.state.coordinatesSelected}
+            strokeWidth={10}
+            strokeColor="#5588FF"/>
+            <MapView.Circle
+            center={END_POINT}
+            radius={15}
+            zIndex={100}
+            strokeWidth={2}
+            fillColor="#0033AA"/>
+          </View>
         </MapView>
         <View >
           <View style={styles.search_container}>
@@ -152,7 +223,7 @@ class App extends Component {
             </View>
             <View style={styles.camera_container}>
               <TextInput 
-              onChange={this.toggleSearchBar.bind(this)}
+              onFocus={this.toggleSearchBar.bind(this)}
               style={styles.search_input}/>
             </View>
             <Icon
@@ -161,6 +232,137 @@ class App extends Component {
             type="font-awesome"
             size={18}/>
           </View>
+            <View style={styles.bottom_search_container}>
+              <TouchableOpacity
+              style={styles.bottom_search_button}
+              onPress={this.toggleWorkRoute.bind(this)}>
+                <Icon
+                raised
+                name="briefcase"
+                type="feather"
+                size={18}/>
+                <Text
+                style={styles.bottom_search_text}>公司</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+              style={styles.bottom_search_button}>
+                <Icon
+                raised
+                name="home"
+                type="feather"
+                size={18}/>
+                <Text
+                style={styles.bottom_search_text}>回家</Text>
+              </TouchableOpacity>
+            </View>
+            <Modal
+            popup
+            animationType="slide-up"
+            maskClosable={true}
+            visible={this.state.showBottomBarRecco}>
+              <View style={styles.container_row_end}>
+                <View style={styles.bottom_container_button}>
+                  <Icon
+                  raised
+                  name="home"
+                  type="feather"
+                  size={25}/>
+                </View>
+                  <View style={styles.bottom_container_button}>
+                  <TouchableOpacity
+                  style={styles.bottom_container_button}
+                  onPress={this.toggleCards.bind(this)}>
+                    <Icon
+                    raised
+                    name="home"
+                    type="feather"
+                    size={25}/>
+                  </TouchableOpacity>  
+                  </View>
+                <View style={styles.bottom_container_button}>
+                  <Icon
+                  raised
+                  name="home"
+                  type="feather"
+                  size={25}/>
+                </View>
+              </View>
+            </Modal>
+            <Modal
+            animationType="slide-up"
+            maskClosable={true}
+            closable={true}
+            transparent={true}
+            visible={this.state.showCards}>
+              <Card
+              style={styles.card}
+              containerStyle={styles.card_container}>
+                <Image
+                style={styles.card_image}
+                resizeMode="cover"
+                source={require('./res/img/card1.jpg')}
+                />
+                <View style={styles.bottom_search_container}>
+                  <View style={styles.card_container_button}>
+                    <TouchableOpacity 
+                    onPress={this.toggleNextCard.bind(this)}>
+                      <Icon
+                      raised
+                      name="circle-with-cross"
+                      type="entypo"
+                      size={25}/>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.card_container_button}>
+                    <TouchableOpacity
+                    onPress={this.toggleCards.bind(this)}>
+                      <Icon
+                      raised
+                      name="check-circle"
+                      type="material-community-icons"
+                      size={25}/>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Card>
+            </Modal>
+            <Modal
+            animationType="slide-up"
+            maskClosable={true}
+            closable={true}
+            transparent={true}
+            visible={this.state.showNextCard}>
+              <Card
+              style={styles.card}
+              containerStyle={styles.card_container}>
+                <Image
+                style={styles.card_image}
+                resizeMode="cover"
+                source={require('./res/img/card1.jpg')}
+                />
+                <View style={styles.bottom_search_container}>
+                  <View style={styles.card_container_button}>
+                    <TouchableOpacity>
+                      <Icon
+                      raised
+                      name="circle-with-cross"
+                      type="entypo"
+                      size={25}/>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.card_container_button}>
+                    <TouchableOpacity
+                    onPress={this.closeCards.bind(this)}>
+                      <Icon
+                      raised
+                      name="check-circle"
+                      type="material-community-icons"
+                      size={25}/>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Card>
+            </Modal>
         </View>
       </View>
     );
